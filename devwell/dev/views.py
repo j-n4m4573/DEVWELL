@@ -1,4 +1,12 @@
 from django.shortcuts import get_object_or_404, render
+from django.shortcuts import render
+from django.views.generic.list import ListView
+from django.views.generic.detail import DetailView
+from django.shortcuts import get_object_or_404, render
+from django.http import HttpResponse, Http404, HttpResponseRedirect
+from django.template import loader 
+from django.urls import reverse
+from django.views import generic 
 
 from .models import Review, Tip
 from .forms import ReviewForm
