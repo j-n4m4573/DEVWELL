@@ -21,5 +21,4 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('dev.urls')),
-    path('soup/', include('beautiful_soup.urls')),
 ]

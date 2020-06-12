@@ -9,4 +9,3 @@ class ReviewForm(ModelForm):
             'comment': Textarea(attrs={'cols': 40, 'rows': 15})
         }
 
-

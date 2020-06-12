@@ -7,6 +7,7 @@ from django.http import HttpResponse, Http404, HttpResponseRedirect
 from django.template import loader 
 from django.urls import reverse
 from django.views import generic 
+from datetime import date
 
 from .models import Review, Tip
 from .forms import ReviewForm
@@ -50,10 +51,9 @@ class DetailView(generic.DetailView):
 
 
 def tip_list(request):
-    wine_list = Wine.objects.order_by('-name')
+    tip_list = Tip.objects.order_by('-name')
     context = {'tip_list':tip_list}
     return render(request, 'dev/tip_list.html', context)
-
 
 def tip_detail(request, pk):
     wine = get_object_or_404(Tip, pk=pk)
@@ -74,11 +74,14 @@ def add_review(request, pk):
         review.user_name = user_name
         review.rating = rating
         review.comment = comment
-        review.pub_date = datetime.datetime.now()
+        review.pub_date = models.DateTimeField(default=datetime.now(), blank=True)
         review.save()
     
         return HttpResponseRedirect(reverse('dev:tip_detail', args=(tip.id,)))
 
     return render(request, 'dev/tip_detail.html', {'tip': tip, 'form': form})
 
+# def add_review(request, pk):
+#     form = ReviewForm(request.POST)
+#     return render(request, 'dev/tip_detail.html', {'form': form})
 
