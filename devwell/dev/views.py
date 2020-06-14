@@ -24,31 +24,36 @@ class IndexView(generic.ListView):
 class DetailView(generic.DetailView):
     model = Review
     template_name = 'dev/review_detail.html'
+    context_object_name = 'latest_review'
 
     def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        # context['choice_form'] = ChoiceCreateForm()
-        return context
+            context = super().get_context_data(**kwargs)
+            return context 
+   
+    # def get_context_data(self, **kwargs):
+    #     context = super().get_context_data(**kwargs)
+    #     # context['choice_form'] = ChoiceCreateForm()
+    #     return context
 
-    def post(self, request, pk):
-        tip = get_object_or_404(Tip, pk=pk)
-        form = ReviewForm(request.POST)
+    # def post(self, request, pk):
+    #     tip = get_object_or_404(Tip, pk=pk)
+    #     form = ReviewForm(request.POST)
 
-        if form.is_valid():
-            rating = form.cleaned_data['rating']
-            comment = form.cleaned_data['comment']
-            user_name = form.cleaned_data['user_name']
-            review = Review()
-            review.tip = tip
-            review.user_name = user_name
-            review.rating = rating
-            review.comment = comment
-            review.pub_date = datetime.now()
-            review.save()
-            return HttpResponseRedirect(reverse('polls:detail', args=[pk]))
+    #     if form.is_valid():
+    #         rating = form.cleaned_data['rating']
+    #         comment = form.cleaned_data['comment']
+    #         user_name = form.cleaned_data['user_name']
+    #         review = Review()
+    #         review.tip = tip
+    #         review.user_name = user_name
+    #         review.rating = rating
+    #         review.comment = comment
+    #         review.pub_date = datetime.now()
+    #         review.save()
+    #         return HttpResponseRedirect(reverse('polls:detail', args=[pk]))
 
-        # else if form is not valid
-        return render(request, 'dev/tip_detail.html', {'tip': tip, 'form': form})
+    #     # else if form is not valid
+    #     return render(request, 'dev/tip_detail.html', {'tip': tip, 'form': form})
 
 
 def tip_list(request):
@@ -58,7 +63,6 @@ def tip_list(request):
 
 def tip_detail(request, pk):
     tip = get_object_or_404(Tip, pk=pk)
-    form = ReviewForm()
 
     return render(request, 'dev/tip_detail.html', {'tip': tip, 'form': form})
 
