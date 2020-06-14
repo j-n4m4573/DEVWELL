@@ -1,8 +1,15 @@
+
+{% load static %}
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="{% static 'dev/style.css' %}">
+
 <h1>Tip Detail</h1>
 
 {% block content %}
     <h3>New Poll</h3>
-
+    <a>is static working??</a>
+    
     <form method="POST">
         {% csrf_token %}
 
@@ -10,3 +17,5 @@
         <button type="submit">SUBMIT</button>
     </form>
 {% endblock %}
+
+

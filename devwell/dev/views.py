@@ -7,18 +7,19 @@ from django.http import HttpResponse, Http404, HttpResponseRedirect
 from django.template import loader 
 from django.urls import reverse
 from django.views import generic 
-from datetime import date
+from datetime import datetime
+from django.contrib.staticfiles import finders
 
 from .models import Review, Tip
 from .forms import ReviewForm
 
 
 class IndexView(generic.ListView): 
-	template_name = 'dev/review_list.html'
-	context_object_name = 'latest_review_list'
-
-	def get_queryset(self): 
-		return Review.objects.order_by('-pub_date')[:5]
+    template_name = 'dev/review_list.html'
+    context_object_name = 'latest_review_list'
+    
+    def get_queryset(self): 
+	    return Review.objects.order_by('-pub_date')[:5]
 
 class DetailView(generic.DetailView):
     model = Review
@@ -26,7 +27,7 @@ class DetailView(generic.DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['choice_form'] = ChoiceCreateForm()
+        # context['choice_form'] = ChoiceCreateForm()
         return context
 
     def post(self, request, pk):
@@ -42,7 +43,7 @@ class DetailView(generic.DetailView):
             review.user_name = user_name
             review.rating = rating
             review.comment = comment
-            review.pub_date = datetime.datetime.now()
+            review.pub_date = datetime.now()
             review.save()
             return HttpResponseRedirect(reverse('polls:detail', args=[pk]))
 
@@ -56,7 +57,7 @@ def tip_list(request):
     return render(request, 'dev/tip_list.html', context)
 
 def tip_detail(request, pk):
-    wine = get_object_or_404(Tip, pk=pk)
+    tip = get_object_or_404(Tip, pk=pk)
     form = ReviewForm()
 
     return render(request, 'dev/tip_detail.html', {'tip': tip, 'form': form})
@@ -74,7 +75,7 @@ def add_review(request, pk):
         review.user_name = user_name
         review.rating = rating
         review.comment = comment
-        review.pub_date = models.DateTimeField(default=datetime.now(), blank=True)
+        review.pub_date = datetime.now()
         review.save()
     
         return HttpResponseRedirect(reverse('dev:tip_detail', args=(tip.id,)))

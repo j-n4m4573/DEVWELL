@@ -1,0 +1,20 @@
+body {
+    background: black;
+}
+
+li a {
+    color: rgb(0, 255, 128);
+}
+
+a {
+    color: yellow; 
+}
+
+h1 {
+    color: yellow; 
+}
+
+h1 a, h2 a {
+    color: #C25100;
+}
+
